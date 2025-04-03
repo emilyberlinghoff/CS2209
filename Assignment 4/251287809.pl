@@ -1,3 +1,4 @@
+% ==================================================== QUESTION 1 ====================================================
 % ===== Facts =====
 
 % parent(Parent, Child)
@@ -65,3 +66,57 @@ uncle(X, Y) :- male(X), parent(Z, Y), sibling(X, Z).
 % mother_in_law(X, Y): X is mother-in-law of Y
 mother_in_law(X, Y) :- female(X), parent(X, Z), spouse(Z, Y).
 mother_in_law(X, Y) :- female(X), parent(X, Z), spouse(Y, Z).
+
+% ==================================================== QUESTION 2 ====================================================
+% ===== US and Canadian Cities =====
+city(chicago).
+city(toronto).
+city(detroit).
+city(orlando).
+city(newyork).
+city(losangeles).
+
+% ===== WWII Hero Keywords (short names that can match in airport names) =====
+wwii_hero("O'Hare").
+wwii_hero("MacArthur").
+wwii_hero("Eisenhower").
+wwii_hero("Patton").
+
+% ===== WWII Battle Keywords =====
+wwii_battle("Midway").
+wwii_battle("Normandy").
+wwii_battle("Bulge").
+wwii_battle("Iwo").
+
+% ===== Airport Names by City =====
+airport(chicago, "O'Hare International Airport").
+airport(chicago, "Midway Airport").
+
+airport(toronto, "Pearson International Airport").
+airport(toronto, "Billy Bishop Airport").
+
+airport(detroit, "Wayne County Airport").
+airport(orlando, "Orlando International Airport").
+airport(newyork, "John F. Kennedy International Airport").
+airport(newyork, "LaGuardia Airport").
+airport(losangeles, "Los Angeles International Airport").
+
+% ===== Matching logic =====
+named_for_hero(Name) :-
+    wwii_hero(Hero),
+    sub_atom(Name, _, _, _, Hero).
+
+named_for_battle(Name) :-
+    wwii_battle(Battle),
+    sub_atom(Name, _, _, _, Battle).
+
+% ===== Clue resolution rule =====
+query(City) :-
+    city(City),
+    airport(City, A1),
+    airport(City, A2),
+    A1 \= A2,
+    (
+        (named_for_hero(A1), named_for_battle(A2));
+        (named_for_battle(A1), named_for_hero(A2))
+    ).

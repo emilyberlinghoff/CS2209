@@ -120,3 +120,18 @@ query(City) :-
         (named_for_hero(A1), named_for_battle(A2));
         (named_for_battle(A1), named_for_hero(A2))
     ).
+
+% ==================================================== QUESTION 3 ====================================================
+% ===== last =====
+% base case: the last element of a single-element list is that element
+my_last(X, [X]).
+
+% recursive case: keep moving through the list until you reach the last element
+my_last(X, [_|T]) :- my_last(X, T).
+
+% ===== adjacent =====
+% base case: X and Y are adjacent if they appear at the head of the list
+adjacent(X, Y, [X,Y|_]).
+
+% recursive case: skip head and check the rest of the list
+adjacent(X, Y, [_|T]) :- adjacent(X, Y, T).
